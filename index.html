@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DelivrePizza | A Melhor Pizza da Cidade</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#D32F2F',
+                            darkRed: '#B71C1C',
+                            yellow: '#FFC107',
+                            gold: '#FFB300',
+                            lightYellow: '#FFF8E1',
+                            dark: '#1C1917'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .bg-pattern {
+            background-color: #1c1917;
+            background-image: radial-gradient(#d32f2f 0.75px, transparent 0.75px), radial-gradient(#ffc107 0.75px, #1c1917 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            background-opacity: 0.1;
+        }
+        .text-glow {
+            text-shadow: 0 2px 10px rgba(255, 193, 7, 0.4);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D32F2F;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B71C1C;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Header/Navbar -->
+    <header class="sticky top-0 z-40 bg-brand-darkRed text-white shadow-xl border-b-4 border-brand-yellow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 bg-brand-yellow rounded-full flex items-center justify-center text-brand-darkRed text-2xl font-bold shadow-lg transform group-hover:rotate-12 transition-transform duration-300">
+                    <i class="fa-solid font-bold fa-pizza-slice"></i>
+                </div>
+                <div>
+                    <span class="text-2xl sm:text-3xl font-extrabold tracking-wider font-serif text-white">Delivre<span class="text-brand-yellow">Pizza</span></span>
+                    <span class="block text-xs text-amber-200 tracking-widest uppercase font-semibold">Sabor & Agilidade</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex space-x-8 text-sm font-semibold">
+                <a href="#hero" class="hover:text-brand-yellow transition-colors py-1 border-b-2 border-transparent hover:border-brand-yellow">Início</a>
+                <a href="#menu" class="hover:text-brand-yellow transition-colors py-1 border-b-2 border-transparent hover:border-brand-yellow">Cardápio</a>
+                <a href="#sobre" class="hover:text-brand-yellow transition-colors py-1 border-b-2 border-transparent hover:border-brand-yellow">Sobre Nós</a>
+                <a href="#contato" class="hover:text-brand-yellow transition-colors py-1 border-b-2 border-transparent hover:border-brand-yellow">Contato</a>
+            </nav>
+
+            <!-- Cart Trigger Button -->
+            <button id="cart-toggle-btn" onclick="toggleCart()" class="relative bg-brand-yellow text-brand-darkRed font-bold px-4 py-2.5 rounded-full hover:bg-yellow-400 transition-all shadow-md flex items-center gap-2 transform active:scale-95">
+                <i class="fa-solid fa-cart-shopping text-lg"></i>
+                <span class="hidden sm:inline">Seu Pedido</span>
+                <span id="cart-count-badge" class="bg-brand-red text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold border-2 border-white">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section id="hero" class="relative bg-brand-dark text-white overflow-hidden py-16 lg:py-24 border-b-8 border-brand-yellow">
+        <div class="absolute inset-0 opacity-20 bg-pattern"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-brand-red/80 border border-brand-yellow px-4 py-1.5 rounded-full text-brand-yellow text-xs sm:text-sm font-bold tracking-wide uppercase">
+                    <i class="fa-solid fa-fire text-brand-yellow animate-pulse"></i> Entrega Rápida & Quentinha!
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black font-serif leading-tight">
+                    A verdadeira pizza artesanal na sua <span class="text-brand-yellow underline decoration-brand-red decoration-wavy">porta</span>.
+                </h1>
+                <p class="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0">
+                    Massa de fermentação natural, ingredientes selecionados e o autêntico molho italiano. Peça agora e confirme seu pedido direto no WhatsApp!
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                    <a href="#menu" class="bg-brand-red hover:bg-red-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-red-900/50 transition-all flex items-center justify-center gap-3 text-lg border-2 border-brand-yellow">
+                        <i class="fa-solid fa-utensils"></i> Ver Cardápio Completo
+                    </a>
+                    <a href="#promos" class="bg-transparent hover:bg-white/10 text-brand-yellow font-bold px-6 py-4 rounded-xl border-2 border-brand-yellow transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-tags"></i> Ofertas Especiais
+                    </a>
+                </div>
+                <!-- Features pills -->
+                <div class="grid grid-cols-3 gap-2 sm:gap-4 pt-6 border-t border-gray-800 text-center">
+                    <div>
+                        <p class="text-brand-yellow font-bold text-lg sm:text-xl">30-40 min</p>
+                        <p class="text-xs text-gray-400">Tempo de Entrega</p>
+                    </div>
+                    <div>
+                        <p class="text-brand-yellow font-bold text-lg sm:text-xl">100% Fresco</p>
+                        <p class="text-xs text-gray-400">Ingredientes Premium</p>
+                    </div>
+                    <div>
+                        <p class="text-brand-yellow font-bold text-lg sm:text-xl">Via WhatsApp</p>
+                        <p class="text-xs text-gray-400">Confirmação Direta</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative flex justify-center">
+                <div class="relative w-72 h-72 sm:w-96 sm:h-96 lg:w-[420px] lg:h-[420px]">
+                    <!-- Outer Decorative Ring -->
+                    <div class="absolute inset-0 rounded-full border-4 border-dashed border-brand-yellow/40 animate-[spin_60s_linear_infinite]"></div>
+                    <!-- Pizza Image -->
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80" alt="DelivrePizza Especial" class="w-full h-full object-cover rounded-full shadow-2xl border-4 border-brand-yellow transform hover:scale-105 transition-transform duration-500">
+                    <!-- Badge -->
+                    <div class="absolute -bottom-4 -left-2 sm:left-4 bg-brand-yellow text-brand-darkRed font-extrabold px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 border-2 border-white">
+                        <i class="fa-solid fa-star text-2xl text-brand-red"></i>
+                        <div>
+                            <p class="text-xs uppercase tracking-wider leading-none text-gray-800">Mais Pedida</p>
+                            <p class="text-sm font-black">Calabresa Gourmet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <main id="menu" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-brand-red font-bold text-sm tracking-widest uppercase bg-red-100 px-3 py-1 rounded-full">Nosso Cardápio</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold font-serif text-gray-900 mt-2">Escolha Suas Pizzas Favoritas</h2>
+            <div class="w-24 h-1 bg-brand-yellow mx-auto mt-3 rounded-full"></div>
+            <p class="text-gray-600 mt-3">Monte seu pedido em poucos cliques e receba a confirmação detalhada pelo WhatsApp!</p>
+        </div>
+
+        <!-- Category Buttons -->
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10" id="category-tabs">
+            <button onclick="filterCategory('todas')" class="cat-btn active bg-brand-red text-white font-semibold px-5 py-2.5 rounded-full shadow-md transition-all border border-brand-red text-sm sm:text-base">
+                Todas
+            </button>
+            <button onclick="filterCategory('tradicionais')" class="cat-btn bg-white text-gray-700 hover:bg-red-50 font-semibold px-5 py-2.5 rounded-full shadow-sm transition-all border border-gray-200 text-sm sm:text-base">
+                🍕 Tradicionais
+            </button>
+            <button onclick="filterCategory('especiais')" class="cat-btn bg-white text-gray-700 hover:bg-red-50 font-semibold px-5 py-2.5 rounded-full shadow-sm transition-all border border-gray-200 text-sm sm:text-base">
+                ⭐ Especiais
+            </button>
+            <button onclick="filterCategory('doces')" class="cat-btn bg-white text-gray-700 hover:bg-red-50 font-semibold px-5 py-2.5 rounded-full shadow-sm transition-all border border-gray-200 text-sm sm:text-base">
+                🍫 Doces
+            </button>
+            <button onclick="filterCategory('bebidas')" class="cat-btn bg-white text-gray-700 hover:bg-red-50 font-semibold px-5 py-2.5 rounded-full shadow-sm transition-all border border-gray-200 text-sm sm:text-base">
+                🥤 Bebidas
+            </button>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Products will be injected by JS -->
+        </div>
+    </main>
+
+    <!-- Customization Modal for Pizzas -->
+    <div id="custom-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border-4 border-brand-yellow transform transition-all">
+            <div class="relative bg-brand-darkRed text-white p-6 rounded-t-2xl">
+                <button onclick="closeCustomModal()" class="absolute top-4 right-4 text-white hover:text-brand-yellow text-2xl font-bold w-8 h-8 rounded-full bg-black/20 flex items-center justify-center">
+                    &times;
+                </button>
+                <span id="modal-item-badge" class="bg-brand-yellow text-brand-darkRed text-xs font-bold px-2.5 py-1 rounded-full uppercase">Pizza</span>
+                <h3 id="modal-item-name" class="text-2xl font-bold font-serif mt-1">Nome do Item</h3>
+                <p id="modal-item-desc" class="text-amber-100 text-sm mt-1">Descrição do item selecionado.</p>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Size Selector (For Pizzas) -->
+                <div id="size-selection-container">
+                    <label class="block font-bold text-gray-800 mb-2 text-sm uppercase tracking-wide flex justify-between">
+                        <span>1. Escolha o Tamanho</span>
+                        <span class="text-brand-red font-normal text-xs">*Obrigatório</span>
+                    </label>
+                    <div class="grid grid-cols-2 gap-3" id="modal-sizes">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Crust Selector (For Pizzas) -->
+                <div id="crust-selection-container">
+                    <label class="block font-bold text-gray-800 mb-2 text-sm uppercase tracking-wide">
+                        2. Opção de Borda
+                    </label>
+                    <div class="space-y-2" id="modal-crusts">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Observation Field -->
+                <div>
+                    <label class="block font-bold text-gray-800 mb-1 text-sm uppercase tracking-wide">
+                        Observação no Item
+                    </label>
+                    <input type="text" id="modal-obs" placeholder="Ex: Tirar a cebola, caprichar no orégano..." class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-red focus:outline-none text-sm">
+                </div>
+
+                <!-- Total & Add Button -->
+                <div class="pt-4 border-t flex items-center justify-between gap-4">
+                    <div>
+                        <span class="block text-xs text-gray-500 uppercase font-semibold">Preço Total</span>
+                        <span id="modal-calculated-price" class="text-2xl font-black text-brand-red">R$ 0,00</span>
+                    </div>
+                    <button onclick="confirmAddToCart()" class="flex-1 bg-brand-red hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 border border-brand-yellow">
+                        <i class="fa-solid fa-cart-plus"></i> Adicionar ao Pedido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Drawer Right Overlay -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <!-- Backdrop -->
+        <div onclick="toggleCart()" class="absolute inset-0 bg-black/60 transition-opacity"></div>
+
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                <!-- Cart Header -->
+                <div class="bg-brand-darkRed text-white p-5 flex items-center justify-between border-b-4 border-brand-yellow">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-basket-shopping text-2xl text-brand-yellow"></i>
+                        <h2 class="text-xl font-bold font-serif">Seu Carrinho</h2>
+                    </div>
+                    <button onclick="toggleCart()" class="text-amber-200 hover:text-white text-2xl">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-4">
+                    <!-- Dynamic cart items JS -->
+                </div>
+
+                <!-- Cart Footer / Checkout Form -->
+                <div class="border-t bg-gray-50 p-5 space-y-4 shadow-lg">
+                    <!-- Delivery Fee -->
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-600 font-medium">Taxa de Entrega:</span>
+                        <span id="delivery-fee-display" class="font-bold text-gray-800">R$ 7,00</span>
+                    </div>
+
+                    <!-- Total Price -->
+                    <div class="flex items-center justify-between text-lg border-t border-b border-gray-200 py-2">
+                        <span class="font-bold text-gray-800">Total do Pedido:</span>
+                        <span id="cart-total-price" class="font-extrabold text-2xl text-brand-red">R$ 0,00</span>
+                    </div>
+
+                    <!-- Checkout Accordion Toggle -->
+                    <button id="checkout-btn" onclick="toggleCheckoutForm()" class="w-full bg-brand-yellow hover:bg-yellow-400 text-brand-darkRed font-extrabold py-3.5 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 border border-yellow-600 text-base">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> Preencher Dados e Enviar
+                    </button>
+
+                    <!-- Hidden Customer Form -->
+                    <div id="checkout-form" class="hidden space-y-3 pt-2 text-sm max-h-[350px] overflow-y-auto pr-1">
+                        <div class="bg-amber-50 p-3 rounded-lg border border-brand-yellow/50 text-xs text-amber-900 mb-2">
+                            <i class="fa-solid fa-info-circle"></i> O resumo e a confirmação do pedido serão enviados diretamente para o WhatsApp digitado abaixo!
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase">Seu Nome *</label>
+                            <input type="text" id="cust-name" placeholder="Ex: João Silva" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-1 focus:ring-brand-red focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase">Seu WhatsApp (com DDD) *</label>
+                            <input type="tel" id="cust-phone" placeholder="Ex: 11999998888" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-1 focus:ring-brand-red focus:outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase">Rua & Nº *</label>
+                                <input type="text" id="cust-address" placeholder="Rua Flores, 123" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-1 focus:ring-brand-red focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase">Bairro *</label>
+                                <input type="text" id="cust-neighborhood" placeholder="Centro" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-1 focus:ring-brand-red focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase">Forma de Pagamento *</label>
+                            <select id="cust-payment" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-1 focus:ring-brand-red focus:outline-none bg-white">
+                                <option value="Pix">Pix (Chave informada na mensagem)</option>
+                                <option value="Cartão de Crédito na Entrega">Cartão de Crédito na Entrega</option>
+                                <option value="Cartão de Débito na Entrega">Cartão de Débito na Entrega</option>
+                                <option value="Dinheiro">Dinheiro (Informar troco abaixo)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase">Observações do Pedido / Troco</label>
+                            <input type="text" id="cust-notes" placeholder="Ex: Preciso de troco para R$ 100,00" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-1 focus:ring-brand-red focus:outline-none">
+                        </div>
+
+                        <!-- Submit via WhatsApp Button -->
+                        <div class="pt-2 space-y-2">
+                            <button onclick="submitOrder('pizzeria')" class="w-full bg-green-600 hover:bg-green-700 text-white font-extrabold py-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-xl"></i> Enviar Pedido à Pizzaria
+                            </button>
+                            <button onclick="submitOrder('customer')" class="w-full bg-brand-red hover:bg-red-800 text-white font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 text-xs">
+                                <i class="fa-solid fa-paper-plane"></i> Enviar Confirmação p/ Cliente
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promotional Banner -->
+    <section id="promos" class="bg-gradient-to-r from-brand-red to-brand-darkRed text-white py-12 border-y-4 border-brand-yellow my-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-2 text-center md:text-left">
+                <span class="bg-brand-yellow text-brand-darkRed font-extrabold px-3 py-1 rounded-md text-xs uppercase tracking-wider">Combo do Dia</span>
+                <h3 class="text-3xl font-black font-serif">Combo Delivre Família</h3>
+                <p class="text-amber-100 max-w-xl">1 Pizza Grande Tradicional + 1 Pizza Doce Pequena + 1 Refrigerante 2L por apenas <strong class="text-brand-yellow text-xl">R$ 89,90</strong></p>
+            </div>
+            <button onclick="addComboToCart()" class="bg-brand-yellow hover:bg-yellow-400 text-brand-darkRed font-extrabold px-6 py-3.5 rounded-xl shadow-xl transition-all flex items-center gap-2 border-2 border-white transform hover:scale-105">
+                <i class="fa-solid fa-plus-circle"></i> Aproveitar Oferta
+            </button>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="sobre" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="Nosso Forno a Lenha" class="rounded-3xl shadow-2xl border-4 border-brand-yellow">
+                <div class="absolute -bottom-6 -right-6 bg-brand-darkRed text-white p-6 rounded-2xl hidden sm:block border-2 border-brand-yellow shadow-xl">
+                    <p class="text-3xl font-black font-serif text-brand-yellow">10+ Anos</p>
+                    <p class="text-xs uppercase tracking-wider">Tradicional Forno a Lenha</p>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <span class="text-brand-red font-bold text-sm tracking-widest uppercase bg-red-50 px-3 py-1 rounded-full">Tradição & Qualidade</span>
+                <h2 class="text-3xl font-bold font-serif text-gray-900">A DelivrePizza fabrica momentos inesquecíveis</h2>
+                <p class="text-gray-600 leading-relaxed">
+                    Fundada com a paixão pela autêntica culinária italiana, a DelivrePizza combina técnicas tradicionais de fermentação lenta com ingredientes criteriosamente selecionados. Nossas pizzas possuem bordas crocantes, recheios generosos e o sabor incomparável do nosso forno a lenha.
+                </p>
+                <div class="grid grid-cols-2 gap-4 pt-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center text-brand-red font-bold"><i class="fa-solid fa-fire"></i></div>
+                        <span class="font-semibold text-sm">Forno a Lenha</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center text-brand-darkRed font-bold"><i class="fa-solid fa-leaf"></i></div>
+                        <span class="font-semibold text-sm">Molho Artesanal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-gray-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 border-2 border-brand-yellow">
+        <i id="toast-icon" class="fa-solid fa-check-circle text-brand-yellow text-xl"></i>
+        <span id="toast-msg" class="text-sm font-medium">Item adicionado com sucesso!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contato" class="bg-brand-dark text-white border-t-4 border-brand-yellow pt-12 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 pb-10 border-b border-gray-800">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-pizza-slice text-brand-yellow text-2xl"></i>
+                    <span class="text-2xl font-bold font-serif">Delivre<span class="text-brand-yellow">Pizza</span></span>
+                </div>
+                <p class="text-gray-400 text-sm">O sabor da verdadeira pizza entregue quentinha na sua residência com total rapidez e agilidade.</p>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-bold text-brand-yellow mb-4 font-serif">Horário de Funcionamento</h4>
+                <p class="text-sm text-gray-300">Terça a Domingo: 18:00 às 23:30</p>
+                <p class="text-sm text-gray-400 mt-1">Segunda-feira: Fechado para descanso da equipe</p>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-bold text-brand-yellow mb-4 font-serif">Contato & Endereço</h4>
+                <p class="text-sm text-gray-300"><i class="fa-solid fa-location-dot text-brand-red mr-2"></i> Av. das Pizzas, 1000 - Centro</p>
+                <p class="text-sm text-gray-300 mt-1"><i class="fa-brands fa-whatsapp text-green-500 mr-2"></i> (11) 99999-8888</p>
+                <div class="flex gap-4 mt-4">
+                    <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-brand-red flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-brand-red flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 text-center text-xs text-gray-500">
+            <p>&copy; 2026 DelivrePizza. Todos os direitos reservados. Projeto feito com carinho.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Store Pizzeria WhatsApp Number (Default for order delivery)
+        const PIZZERIA_WHATSAPP = "5511999998888"; 
+        const DELIVERY_FEE = 7.00;
+
+        // Menu Data
+        const menuItems = [
+            {
+                id: 1,
+                name: "Calabresa Especial",
+                category: "tradicionais",
+                desc: "Molho de tomate fresco, queijo muçarela, calabresa fatiada, cebola roxa e orégano.",
+                basePrice: 42.00,
+                image: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80",
+                isPizza: true
+            },
+            {
+                id: 2,
+                name: "Margherita Tradicional",
+                category: "tradicionais",
+                desc: "Molho de tomate fresco, muçarela especial, fatias de tomate fresco e manjericão fresco.",
+                basePrice: 39.00,
+                image: "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=600&q=80",
+                isPizza: true
+            },
+            {
+                id: 3,
+                name: "Frango com Catupiry",
+                category: "especiais",
+                desc: "Frango desfiado temperado, cobertura do legítimo requeijão Catupiry e milho selecionado.",
+                basePrice: 48.00,
+                image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80",
+                isPizza: true
+            },
+            {
+                id: 4,
+                name: "Quatro Queijos Premium",
+                category: "especiais",
+                desc: "Combinação perfeita de Muçarela, Gorgonzola, Parmesão ralado e Catupiry cremoso.",
+                basePrice: 52.00,
+                image: "https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=600&q=80",
+                isPizza: true
+            },
+            {
+                id: 5,
+                name: "Chocolate com Morango",
+                category: "doces",
+                desc: "Creme de chocolate ao leite macio, coberto com lâminas de morangos frescos picados.",
+                basePrice: 45.00,
+                image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80",
+                isPizza: true
+            },
+            {
+                id: 6,
+                name: "Nutella com Banana",
+                category: "doces",
+                desc: "Deliciosa camada de Nutella original com rodelas de banana e leve toque de canela.",
+                basePrice: 49.00,
+                image: "https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=600&q=80",
+                isPizza: true
+            },
+            {
+                id: 7,
+                name: "Coca-Cola 2 Litros",
+                category: "bebidas",
+                desc: "Refrigerante Coca-Cola Garrafa 2L super gelada.",
+                basePrice: 14.00,
+                image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80",
+                isPizza: false
+            },
+            {
+                id: 8,
+                name: "Guaraná Antarctica 2L",
+                category: "bebidas",
+                desc: "Refrigerante Guaraná Antarctica 2 Litros bem gelado.",
+                basePrice: 12.00,
+                image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+                isPizza: false
+            }
+        ];
+
+        // Pizza Customization Options
+        const sizes = [
+            { id: 'broto', name: 'Pequena (4 fatias)', multiplier: 0.8 },
+            { id: 'media', name: 'Média (6 fatias)', multiplier: 1.0 },
+            { id: 'grande', name: 'Grande (8 fatias)', multiplier: 1.25 },
+            { id: 'gigante', name: 'Gigante (12 fatias)', multiplier: 1.5 }
+        ];
+
+        const crusts = [
+            { id: 'tradicional', name: 'Massa Tradicional (Sem Borda)', price: 0.00 },
+            { id: 'catupiry', name: 'Borda Recheada Catupiry', price: 8.00 },
+            { id: 'cheddar', name: 'Borda Recheada Cheddar', price: 8.00 },
+            { id: 'chocolate', name: 'Borda Recheada Chocolate', price: 10.00 }
+        ];
+
+        // State variables
+        let cart = [];
+        let selectedItem = null;
+        let selectedSize = sizes[2]; // Default: Grande
+        let selectedCrust = crusts[0]; // Default: Tradicional
+
+        // Render Menu Items
+        function renderMenu(category = 'todas') {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            const filtered = category === 'todas' 
+                ? menuItems 
+                : menuItems.filter(item => item.category === category);
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col justify-between group";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="relative overflow-hidden h-48">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <span class="absolute top-3 right-3 bg-brand-yellow text-brand-darkRed font-bold text-xs px-2.5 py-1 rounded-full uppercase shadow">
+                                ${item.category}
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold font-serif text-gray-900 group-hover:text-brand-red transition-colors">${item.name}</h3>
+                            <p class="text-gray-600 text-sm mt-2 line-clamp-2">${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0 flex items-center justify-between border-t border-gray-50 mt-4">
+                        <div>
+                            <span class="text-xs text-gray-400 block font-medium">A partir de</span>
+                            <span class="text-xl font-black text-brand-red">R$ ${item.basePrice.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <button onclick="openCustomModal(${item.id})" class="bg-brand-red hover:bg-red-700 text-white font-bold px-4 py-2.5 rounded-xl shadow transition-all flex items-center gap-1.5 text-sm">
+                            <i class="fa-solid fa-plus"></i> ${item.isPizza ? 'Montar / Adicionar' : 'Adicionar'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Category Filtering UI
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-red', 'text-white', 'active');
+                btn.classList.add('bg-white', 'text-gray-700');
+            });
+
+            event.currentTarget.classList.remove('bg-white', 'text-gray-700');
+            event.currentTarget.classList.add('bg-brand-red', 'text-white', 'active');
+
+            renderMenu(cat);
+        }
+
+        // Modal Customization
+        function openCustomModal(id) {
+            selectedItem = menuItems.find(i => i.id === id);
+            selectedSize = sizes[2]; // Default Grande
+            selectedCrust = crusts[0]; // Default Tradicional
+            document.getElementById('modal-obs').value = '';
+
+            document.getElementById('modal-item-name').innerText = selectedItem.name;
+            document.getElementById('modal-item-desc').innerText = selectedItem.desc;
+            document.getElementById('modal-item-badge').innerText = selectedItem.category;
+
+            const sizeContainer = document.getElementById('size-selection-container');
+            const crustContainer = document.getElementById('crust-selection-container');
+
+            if (selectedItem.isPizza) {
+                sizeContainer.classList.remove('hidden');
+                crustContainer.classList.remove('hidden');
+                renderModalSizes();
+                renderModalCrusts();
+            } else {
+                sizeContainer.classList.add('hidden');
+                crustContainer.classList.add('hidden');
+            }
+
+            updateModalPrice();
+            document.getElementById('custom-modal').classList.remove('hidden');
+        }
+
+        function closeCustomModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
+        }
+
+        function renderModalSizes() {
+            const container = document.getElementById('modal-sizes');
+            container.innerHTML = '';
+            sizes.forEach(s => {
+                const calculated = (selectedItem.basePrice * s.multiplier).toFixed(2).replace('.', ',');
+                const isSelected = s.id === selectedSize.id;
+                
+                const btn = document.createElement('button');
+                btn.className = `p-3 rounded-xl border-2 text-left flex flex-col justify-between transition-all ${isSelected ? 'border-brand-red bg-red-50 text-brand-darkRed font-bold' : 'border-gray-200 text-gray-700'}`;
+                btn.onclick = () => { selectedSize = s; renderModalSizes(); updateModalPrice(); };
+                btn.innerHTML = `
+                    <span class="text-xs uppercase">${s.name}</span>
+                    <span class="text-sm font-black mt-1">R$ ${calculated}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function renderModalCrusts() {
+            const container = document.getElementById('modal-crusts');
+            container.innerHTML = '';
+            crusts.forEach(c => {
+                const isSelected = c.id === selectedCrust.id;
+                const btn = document.createElement('button');
+                btn.className = `w-full p-2.5 rounded-xl border-2 text-left flex items-center justify-between transition-all text-xs sm:text-sm ${isSelected ? 'border-brand-red bg-red-50 text-brand-darkRed font-bold' : 'border-gray-200 text-gray-700'}`;
+                btn.onclick = () => { selectedCrust = c; renderModalCrusts(); updateModalPrice(); };
+                btn.innerHTML = `
+                    <span>${c.name}</span>
+                    <span class="font-bold">${c.price > 0 ? '+ R$ ' + c.price.toFixed(2).replace('.', ',') : 'Grátis'}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function calculateItemUnitPrice() {
+            if (!selectedItem) return 0;
+            if (!selectedItem.isPizza) return selectedItem.basePrice;
+
+            const base = selectedItem.basePrice * selectedSize.multiplier;
+            return base + selectedCrust.price;
+        }
+
+        function updateModalPrice() {
+            const total = calculateItemUnitPrice();
+            document.getElementById('modal-calculated-price').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        // Cart Logic
+        function confirmAddToCart() {
+            const unitPrice = calculateItemUnitPrice();
+            const obs = document.getElementById('modal-obs').value.trim();
+
+            const cartItem = {
+                cartId: Date.now(),
+                id: selectedItem.id,
+                name: selectedItem.name,
+                isPizza: selectedItem.isPizza,
+                size: selectedItem.isPizza ? selectedSize.name : null,
+                crust: selectedItem.isPizza ? selectedCrust.name : null,
+                unitPrice: unitPrice,
+                quantity: 1,
+                obs: obs
+            };
+
+            cart.push(cartItem);
+            closeCustomModal();
+            updateCartUI();
+            showToast(`"${selectedItem.name}" adicionado ao carrinho!`);
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const badge = document.getElementById('cart-count-badge');
+            const totalDisplay = document.getElementById('cart-total-price');
+
+            const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            badge.innerText = totalItemsCount;
+
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-gray-300"></i>
+                        <p class="font-semibold text-gray-500">Seu carrinho está vazio.</p>
+                        <p class="text-xs mt-1">Adicione deliciosas pizzas do nosso cardápio!</p>
+                    </div>
+                `;
+                totalDisplay.innerText = 'R$ 0,00';
+                return;
+            }
+
+            let subtotal = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.unitPrice * item.quantity;
+                subtotal += itemTotal;
+
+                const itemElement = document.createElement('div');
+                itemElement.className = "bg-gray-50 p-3.5 rounded-2xl border border-gray-200 space-y-2 relative";
+
+                itemElement.innerHTML = `
+                    <div class="flex justify-between items-start pr-6">
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-sm">${item.name}</h4>
+                            ${item.isPizza ? `<p class="text-xs text-gray-500">${item.size} | ${item.crust}</p>` : ''}
+                            ${item.obs ? `<p class="text-xs text-amber-700 italic mt-0.5">Obs: ${item.obs}</p>` : ''}
+                        </div>
+                        <span class="font-extrabold text-brand-red text-sm">R$ ${itemTotal.toFixed(2).replace('.', ',')}</span>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1">
+                        <div class="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-2 py-1">
+                            <button onclick="changeQuantity(${index}, -1)" class="text-gray-500 hover:text-brand-red text-xs px-1 font-bold">-</button>
+                            <span class="text-xs font-bold w-4 text-center">${item.quantity}</span>
+                            <button onclick="changeQuantity(${index}, 1)" class="text-gray-500 hover:text-brand-red text-xs px-1 font-bold">+</button>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-medium">
+                            <i class="fa-solid fa-trash-can"></i> Remover
+                        </button>
+                    </div>
+                `;
+                container.appendChild(itemElement);
+            });
+
+            const grandTotal = subtotal + (cart.length > 0 ? DELIVERY_FEE : 0);
+            totalDisplay.innerText = `R$ ${grandTotal.toFixed(2).replace('.', ',')}`;
+        }
+
+        function changeQuantity(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function toggleCheckoutForm() {
+            if (cart.length === 0) {
+                showToast("Adicione itens ao carrinho primeiro!", "error");
+                return;
+            }
+            const form = document.getElementById('checkout-form');
+            form.classList.toggle('hidden');
+        }
+
+        // Add Promo Combo directly to cart
+        function addComboToCart() {
+            cart.push({
+                cartId: Date.now(),
+                id: 99,
+                name: "Combo Delivre Família",
+                isPizza: false,
+                size: null,
+                crust: null,
+                unitPrice: 89.90,
+                quantity: 1,
+                obs: "Combo Promocional (Pizza Grande + Pizza Doce Pq + Refri 2L)"
+            });
+            updateCartUI();
+            toggleCart();
+            showToast("Combo Família adicionado ao carrinho!");
+        }
+
+        // Format and Submit Order to WhatsApp
+        function submitOrder(target = 'pizzeria') {
+            if (cart.length === 0) {
+                showToast("Seu carrinho está vazio!", "error");
+                return;
+            }
+
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+            const neighborhood = document.getElementById('cust-neighborhood').value.trim();
+            const payment = document.getElementById('cust-payment').value;
+            const notes = document.getElementById('cust-notes').value.trim();
+
+            if (!name || !phone || !address || !neighborhood) {
+                showToast("Por favor, preencha todos os campos obrigatórios (*)", "error");
+                return;
+            }
+
+            let subtotal = cart.reduce((sum, i) => sum + (i.unitPrice * i.quantity), 0);
+            let grandTotal = subtotal + DELIVERY_FEE;
+
+            // Generate receipt text
+            let msg = `🍕 *CONFIRMAÇÃO DE PEDIDO - DELIVREPIZZA* 🍕\n`;
+            msg += `----------------------------------------\n`;
+            msg += `👤 *Cliente:* ${name}\n`;
+            msg += `📞 *WhatsApp:* ${phone}\n`;
+            msg += `📍 *Endereço:* ${address} - ${neighborhood}\n`;
+            msg += `💳 *Forma de Pagamento:* ${payment}\n`;
+            if (notes) msg += `📝 *Observações:* ${notes}\n`;
+            msg += `----------------------------------------\n`;
+            msg += `📋 *ITENS DO PEDIDO:*\n\n`;
+
+            cart.forEach((item, i) => {
+                msg += `*${item.quantity}x ${item.name}*\n`;
+                if (item.isPizza) {
+                    msg += `   • Tamanho: ${item.size}\n`;
+                    msg += `   • Borda: ${item.crust}\n`;
+                }
+                if (item.obs) msg += `   • Obs: ${item.obs}\n`;
+                msg += `   • Valor: R$ ${(item.unitPrice * item.quantity).toFixed(2).replace('.', ',')}\n\n`;
+            });
+
+            msg += `----------------------------------------\n`;
+            msg += `Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+            msg += `Taxa de Entrega: R$ ${DELIVERY_FEE.toFixed(2).replace('.', ',')}\n`;
+            msg += `💰 *TOTAL FINAL: R$ ${grandTotal.toFixed(2).replace('.', ',')}*\n`;
+            msg += `----------------------------------------\n`;
+            msg += `⏳ *Tempo estimado:* 30 a 40 minutos\n`;
+            msg += `✅ *Status:* Aguardando Confirmação da Pizzeria\n\n`;
+            msg += `Obrigado por escolher a *DelivrePizza*! Bom apetite! 🍕🔥`;
+
+            // Clean target number (Remove non digits)
+            let cleanPhone = "";
+            if (target === 'customer') {
+                cleanPhone = phone.replace(/\D/g, '');
+                if (!cleanPhone.startsWith("55") && cleanPhone.length <= 11) {
+                    cleanPhone = "55" + cleanPhone;
+                }
+            } else {
+                cleanPhone = PIZZERIA_WHATSAPP;
+            }
+
+            const encodedMsg = encodeURIComponent(msg);
+            const waUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
+
+            window.open(waUrl, '_blank');
+            showToast("Redirecionando para o WhatsApp...");
+        }
+
+        // Toast Helper
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-msg');
+            const iconEl = document.getElementById('toast-icon');
+
+            msgEl.innerText = message;
+            if (type === "error") {
+                iconEl.className = "fa-solid fa-triangle-exclamation text-red-400 text-xl";
+            } else {
+                iconEl.className = "fa-solid fa-circle-check text-brand-yellow text-xl";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            renderMenu('todas');
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>
